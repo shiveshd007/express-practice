@@ -6,22 +6,35 @@ router.get('/home', (req, res) => {
   
   res.send(`Hello, shiv! Welcome to the home page.`);
 });
-router.get('/users', async (req, res) => {
-  const users = await User.find()
-  res.send(users)
+router.get('/users', async (req, res, next) => {
+  try {
+    const users = await User.find()
+    res.send(users)
+  } catch (err) {
+    next(err)
+  }
 })
-router.post('/users', async (req, res) => {
+router.post('/users', async (req, res,next) => {
+  try{
   const user = new User(req.body)
   await user.save()
-  res.send(user)
+  res.send(user)}catch(err){
+    next(err)
+  }
 });
-router.put('/users/:id', async (req, res) => {
+router.put('/users/:id', async (req, res,next) => {
+  try{
   const user = await User.findByIdAndUpdate(req.params.id, req.body , { new: true })
-  res.send(user)
+  res.send(user)}catch (err){
+    next(err)
+  }
 });
-router.delete('/users/:id', async (req, res) => {
+router.delete('/users/:id', async (req, res,next) => {
+  try{
   const user = await User.findByIdAndDelete(req.params.id)
-  res.send(user)
+  res.send(user)}catch(err){
+    next(err)
+  }
 });
 
 module.exports = router
