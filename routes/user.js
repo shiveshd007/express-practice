@@ -1,3 +1,4 @@
+const validate = require('../middleware/validate')
 const express = require('express')
 const User = require('../models/user')
 
@@ -14,7 +15,7 @@ router.get('/users', async (req, res, next) => {
     next(err)
   }
 })
-router.post('/users', async (req, res,next) => {
+router.post('/users',validate , async (req, res,next) => {
   try{
   const user = new User(req.body)
   await user.save()
