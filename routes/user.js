@@ -1,13 +1,13 @@
 const validate = require('../middleware/validate')
 const express = require('express')
 const User = require('../models/user')
-
+const authMiddleware = require('../middleware/auth')
 const router = express.Router()
 router.get('/home', (req, res) => {
   
   res.send(`Hello, shiv! Welcome to the home page.`);
 });
-router.get('/users', async (req, res, next) => {
+router.get('/users',authMiddleware, async (req, res, next) => {
   try {
     const users = await User.find()
     res.send(users)

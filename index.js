@@ -5,9 +5,10 @@ const userRoutes = require('./routes/user')
 const logger = require('./middleware/logger')
 const errorHandler = require('./middleware/errorHandler')
 const app = express()
-
+app.use(express.json())
+const authRoutes = require('./routes/auth')
+app.use(authRoutes)
 connectDB()
-
 app.use(express.json())
 app.use(logger)
 app.use(userRoutes)
